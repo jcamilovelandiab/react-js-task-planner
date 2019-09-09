@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import {Home} from './component/Home/Home.js';
+import {Login} from './component/Login/Login.js';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import {Menu} from './component/Menu/Menu.js';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  constructor(props){
+    super(props);
+    localStorage.setItem('email=camilo@biciroute.com', 'camilo');
+  }
+  
+  render() {
+
+    const LoginView = () => (
+      <div>{localStorage.getItem('isLoggedIn') != null ? <Home /> : <Login />} </div>
+    );
+
+    const HomeView = () => (
+      <div>{localStorage.getItem('isLoggedIn') != null ? <Home /> : <Login />} </div>
+    );
+
+    const MenuView = () => (
+      <Menu />
+    );
+
+    return(
+      <Router>
+          <div className="App">
+            <Switch>
+              <Route exact path="/" component={LoginView} />
+              <Route path="/login" component={LoginView} />
+              <Route path="/home" component={HomeView} />
+              <Route path="/menu" component={MenuView} />
+            </Switch>
+          </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
