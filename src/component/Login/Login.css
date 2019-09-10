@@ -31,7 +31,14 @@
 
 .submit {
   margin-top: 20px;
-  background-color: #373734;
+}
+
+button.MuiButtonBase-root.MuiButton-root.submit.MuiButton-contained.MuiButton-containedPrimary.MuiButton-fullWidth{
+  background-color: #CE1126;
+}
+
+a{
+  color: #3F51B5;
 }
 
 .avatar {

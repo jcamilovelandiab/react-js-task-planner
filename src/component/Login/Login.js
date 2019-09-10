@@ -1,4 +1,4 @@
- import React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'; //this is important for routing
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
