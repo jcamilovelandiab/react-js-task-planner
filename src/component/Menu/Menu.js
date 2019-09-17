@@ -22,7 +22,7 @@ import Grid from '@material-ui/core/Grid';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MapIcon from '@material-ui/icons/Map';
 import HelpIcon from '@material-ui/icons/Help';
-
+import SettingsIcon from '@material-ui/icons/Settings';
 import MenuStyles from "./MenuStyles.js";
 
 export default function Menu() {
@@ -62,7 +62,7 @@ export default function Menu() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        BiciRoute
+                        Task Planer
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -104,9 +104,9 @@ export default function Menu() {
                     </ListItem>
                     <ListItem button>
                         <ListItemIcon className={classes.icon}>
-                            <MapIcon />
+                            <SettingsIcon />
                         </ListItemIcon>
-                        <ListItemText primary="My trips" />
+                        <ListItemText primary="Settings" />
                     </ListItem>
                     <ListItem button>
                         <ListItemIcon className={classes.icon}>
