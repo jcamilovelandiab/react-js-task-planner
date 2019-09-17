@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
   },
   fab: {
     margin: theme.spacing(1),
-    marginLeft: 'auto',
     backgroundColor: "#FFFFFA"
   },
   divider:{

@@ -22,10 +22,6 @@ class App extends Component {
       <div>{localStorage.getItem('isLoggedIn') != null ? <Home /> : <Login />} </div>
     );
 
-    const MenuView = () => (
-      <Menu />
-    );
-
     return(
       <Router>
           <div className="App">
