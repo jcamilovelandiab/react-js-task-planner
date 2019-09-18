@@ -9,15 +9,16 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import './Login.css';
+import '../Login/Login.css';
 
-export class Login extends React.Component{
+export class SignUp extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = {'email':"", 'password':""};
+        this.state = {'email':"", 'password':"", "confirmPassword": ""};
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
@@ -33,7 +34,7 @@ export class Login extends React.Component{
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Log in
+                        Sign Up
                     </Typography>
                     <form className="form" noValidate onSubmit={this.handleSubmit}>
                         <TextField
@@ -60,6 +61,18 @@ export class Login extends React.Component{
                         autoComplete="current-password"
                         onChange = {this.handlePasswordChange}
                         />
+                        <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="confirmPassword"
+                        label="Confirm Password"
+                        type="password"
+                        id="confirmPassword"
+                        autoComplete="current-password"
+                        onChange = {this.handleConfirmPasswordChange}
+                        />
                         <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
@@ -71,14 +84,14 @@ export class Login extends React.Component{
                         color="primary"
                         className="submit"
                         >
-                        Log In
+                        Sign Up
                         </Button>
                         <Grid container>
-                        <Grid item>
-                            <a href="/signup" variant="body2">
-                            {"Don't have an account? Sign Up"}
-                            </a>
-                        </Grid>
+                            <Grid item>
+                                <a href="/login" variant="body2">
+                                {"Already have an account? Sign in"}
+                                </a>
+                            </Grid>
                         </Grid>
                     </form>
                     </div>
@@ -99,14 +112,27 @@ export class Login extends React.Component{
         });
     }
 
+    handleConfirmPasswordChange(e) {
+        this.setState({
+            confirmPassword: e.target.value
+        });
+    }
+
     handleSubmit(e) {
         e.preventDefault();
-        console.log(localStorage.getItem("email="+this.state.email));
-        if(localStorage.getItem("email="+this.state.email)===this.state.password){
-            localStorage.setItem('isLoggedIn',true);
-            window.location.href = "/home";
+        if(this.state.email === ""){
+            alert("Please enter your email.");
+        }else if(this.state.password === ""){
+            alert("Please enter your password.");
+        }else if(this.state.password !== this.state.confirmPassword){
+            alert("Passwords do not match. Please reconfirm your password.");
+        }
+        else if(localStorage.getItem("email="+this.state.email)!=null){
+            alert("The email you entered already exists");
         }else{
-            alert("The email or password is incorrect");
+            localStorage.setItem("email="+this.state.email, this.state.password);
+            alert("You have signed up successfully!");
+            window.location.href = "/login"
         }
     }
 

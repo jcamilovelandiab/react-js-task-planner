@@ -4,10 +4,6 @@ import { Grid } from '@material-ui/core';
 
 export class CardList extends Component{
 
-    constructor(props){
-        super(props);
-    }
-
     render(){
         const cardList = this.props.cardList.map((card, i) => {
             return (
@@ -19,11 +15,6 @@ export class CardList extends Component{
                     />
             );
         });
-
-        const columns = {
-            Title: "Tasks",
-            field: "tasks"
-        }
 
         return (
             <Grid container alignItems="center" justify="center">
