@@ -3,7 +3,6 @@ import './App.css';
 import {Home} from './component/Home/Home.js';
 import {Login} from './component/Login/Login.js';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import Menu from './component/Menu/Menu.js';
 
 class App extends Component {
 
