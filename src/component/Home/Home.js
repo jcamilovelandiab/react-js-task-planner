@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Menu from '../Menu/Menu.js';
 import {CardList} from '../CardList/CardList.js';
+import './Home.css';
+import AddCard from '../AddCard/AddCard.js';
 
 export class Home extends Component {
 
@@ -25,15 +27,6 @@ export class Home extends Component {
                 },
                 status: "Ready",
                 dueDate: "12/02/2019"
-            },
-            {
-                description: "Facebook Integration",
-                responsible: {
-                    name: "Santiago Carrillo",
-                    email: "sancarbar@gmail.com"
-                },
-                status: "Completed",
-                dueDate: "12/02/2019"
             }]
         }
     }
@@ -43,7 +36,9 @@ export class Home extends Component {
             <div>
                 <Menu />
                 <CardList cardList={this.state.items}/>
+                <AddCard />
             </div>
         );
     }
+
 }
