@@ -18,7 +18,10 @@ import Grid from '@material-ui/core/Grid';
 import { DialogContent } from '@material-ui/core';
 
 import { MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
+import { Select } from '@material-ui/core';
 import swal from 'sweetalert';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
 
 export class Home extends Component {
 
@@ -204,15 +207,26 @@ export class Home extends Component {
                                     label="Responsible's name" type="text" id="respnsibleName"
                                     onChange = {this.handleChangeResponsibleName}
                                 />
+
                                 <TextField variant="outlined" margin="normal" required fullWidth name="responsibleEmail"
                                     label="Responsible's email" type="text" id="responsibleEmail"
                                     onChange = {this.handleChangeResponsibleEmail}
                                 />
 
-                                <TextField variant="outlined" margin="normal" required fullWidth name="status"
-                                    label="Status" type="text" id="status"
-                                    onChange = {this.handleChangeStatus}
-                                />
+                                <br/>
+                                <InputLabel htmlFor="status">Status</InputLabel>
+                                <Select
+                                    required
+                                    fullWidth
+                                    onChange={this.handleChangeStatus}
+                                    name="status"
+                                    id="status"
+                                    value={this.state.status}
+                                >
+                                    <MenuItem value="Ready">Ready</MenuItem>
+                                    <MenuItem value="Completed">Completed</MenuItem>
+                                    <MenuItem value="In Progress">In Progress</MenuItem>
+                                </Select>
 
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <Grid container justify="left">
