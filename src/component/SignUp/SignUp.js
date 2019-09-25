@@ -10,12 +10,15 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import '../Login/Login.css';
+import {Link } from "react-router-dom";
+import swal from 'sweetalert';
 
 export class SignUp extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = {'email':"", 'password':"", "confirmPassword": ""};
+        this.state = {"fullName":"","email":"", 'password':"", "confirmPassword": ""};
+        this.handleFullNameChange = this.handleFullNameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
@@ -34,63 +37,72 @@ export class SignUp extends React.Component{
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign Up
+                        Task Planner
                     </Typography>
                     <form className="form" noValidate onSubmit={this.handleSubmit}>
                         <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        onChange = {this.handleEmailChange}
-                        autoFocus
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="fullName"
+                            label="Full Name"
+                            name="fullName"
+                            onChange = {this.handleFullNameChange}
                         />
+                            
                         <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        onChange = {this.handlePasswordChange}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            onChange = {this.handleEmailChange}
                         />
+
+
                         <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="confirmPassword"
-                        label="Confirm Password"
-                        type="password"
-                        id="confirmPassword"
-                        autoComplete="current-password"
-                        onChange = {this.handleConfirmPasswordChange}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            onChange = {this.handlePasswordChange}
                         />
-                        <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
+
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="confirmPassword"
+                            label="Confirm Password"
+                            type="password"
+                            id="confirmPassword"
+                            onChange = {this.handleConfirmPasswordChange}
                         />
+
                         <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className="submit"
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className="submit"
                         >
                         Sign Up
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <a href="/login" variant="body2">
-                                {"Already have an account? Sign in"}
-                                </a>
+                                <Link to="/login" variant="body2">
+                                    Already have an account? Sign in
+                                </Link>
                             </Grid>
                         </Grid>
                     </form>
@@ -98,6 +110,12 @@ export class SignUp extends React.Component{
                 </Grid>
                 </Grid>
         );
+    }
+
+    handleFullNameChange(e){
+        this.setState({
+            fullName: e.target.value
+        });
     }
 
     handleEmailChange(e) {
@@ -118,21 +136,37 @@ export class SignUp extends React.Component{
         });
     }
 
+    showError(msg){
+        swal({
+            title:"Ooops!",
+            text: msg,
+            icon: "error",
+            button: false,
+            timer: 2000
+        });
+    }
     handleSubmit(e) {
         e.preventDefault();
         if(this.state.email === ""){
-            alert("Please enter your email.");
+            this.showError("Please enter your email")
         }else if(this.state.password === ""){
-            alert("Please enter your password.");
+            this.showError("Please enter your password.");
         }else if(this.state.password !== this.state.confirmPassword){
-            alert("Passwords do not match. Please reconfirm your password.");
+            this.showError("Passwords do not match. Please reconfirm your password.");
         }
         else if(localStorage.getItem("email="+this.state.email)!=null){
-            alert("The email you entered already exists");
+            this.showError("The email you entered already exists. Please enter another email");
         }else{
             localStorage.setItem("email="+this.state.email, this.state.password);
-            alert("You have signed up successfully!");
-            window.location.href = "/login"
+            swal({
+                title:"Good job!",
+                text: "You have signed up sucessfully!",
+                icon: "success",
+                timer: 2000,
+                button: false,
+            }).then(() => {
+                window.location.href = "/login";
+            });
         }
     }
 

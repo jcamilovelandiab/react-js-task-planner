@@ -10,6 +10,14 @@ class App extends Component {
   constructor(props){
     super(props);
     localStorage.setItem('email=camilo@biciroute.com', 'camilo');
+    var taskList = [
+      {
+          description: "Implement Login View",
+          responsible: { name: "Santiago Carrillo", email: "sancarbar@gmail.com" },
+          status: "In progress",
+          dueDate: "12/02/2019"
+      }]
+    localStorage.setItem("taskList",JSON.stringify(taskList));
   }
   
   render() {
@@ -28,14 +36,12 @@ class App extends Component {
 
     return(
       <Router>
-          <div className="App">
-            <Switch>
-              <Route exact path="/" component={LoginView} />
-              <Route path="/login" component={LoginView} />
-              <Route path="/signup" component={SignUpView} />
-              <Route path="/home" component={HomeView} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" component={LoginView} />
+            <Route path="/login" component={LoginView} />
+            <Route path="/signup" component={SignUpView} />
+            <Route path="/home" component={HomeView} />
+          </Switch>
       </Router>
     );
   }

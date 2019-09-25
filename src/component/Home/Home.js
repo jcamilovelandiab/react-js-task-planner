@@ -18,19 +18,13 @@ import Grid from '@material-ui/core/Grid';
 import { DialogContent } from '@material-ui/core';
 
 import { MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
+import swal from 'sweetalert';
 
 export class Home extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            items : [
-            {
-                description: "Implement Login View",
-                responsible: { name: "Santiago Carrillo", email: "sancarbar@gmail.com" },
-                status: "In progress",
-                dueDate: "12/02/2019"
-            }],
             description: "",
             responsibleName: "",
             responsibleEmail: "",
@@ -124,9 +118,25 @@ export class Home extends Component {
                 status: this.state.status,
                 dueDate: this.state.dueDate
             }
-            this.addingTask(newTask);
-            alert("You have created a new task");
-            this.handleClose();
+            var taskList = (localStorage.getItem("taskList")!=null)?JSON.parse(localStorage.getItem("taskList")):[]
+            var taskListJSON = []
+            for(var i=0; i<taskList.length; i++){
+                taskListJSON.push(taskList[i]);
+            }
+            taskListJSON.push(newTask);
+            console.log(taskListJSON);
+            localStorage.setItem("taskList", JSON.stringify(taskListJSON));           
+
+            swal({
+                title:"Good job!",
+                text: "You have created a new task sucessfully!",
+                icon: "success",
+                timer: 2000,
+                button: false,
+            }).then(() => {
+                this.handleClose();
+            });
+
         }
     }
 
@@ -162,7 +172,7 @@ export class Home extends Component {
         return(
             <div>
                 <Menu />
-                <CardList cardList={this.state.items}/>
+                <CardList cardList={(localStorage.getItem("taskList")!=null) ? JSON.parse(localStorage.getItem("taskList")):[]}/>
                 
                 <Container>
                     <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}
