@@ -157,7 +157,12 @@ export class SignUp extends React.Component{
         else if(localStorage.getItem("email="+this.state.email)!=null){
             this.showError("The email you entered already exists. Please enter another email");
         }else{
-            localStorage.setItem("email="+this.state.email, this.state.password);
+            var user = {
+                fullName: this.state.fullName,
+                email: this.state.email,
+                password: btoa(this.state.password)
+            };
+            localStorage.setItem("email="+this.state.email, JSON.stringify(user));
             swal({
                 title:"Good job!",
                 text: "You have signed up sucessfully!",

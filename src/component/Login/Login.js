@@ -108,13 +108,13 @@ export class Login extends React.Component{
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(localStorage.getItem("email="+this.state.email));
-        if(localStorage.getItem("email="+this.state.email)===this.state.password){
+        var user = JSON.parse(localStorage.getItem("email="+this.state.email));
+        if(user!=null && user.password === btoa(this.state.password)){
             localStorage.setItem('isLoggedIn',true);
+            localStorage.setItem('loggedUser',JSON.stringify(user));
             window.location.href = "/home";
         }else{
             this.showError("The email or password is incorrect");
         }
     }
-
 }

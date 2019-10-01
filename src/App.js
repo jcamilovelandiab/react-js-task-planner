@@ -9,7 +9,12 @@ class App extends Component {
 
   constructor(props){
     super(props);
-    localStorage.setItem('email=camilo@biciroute.com', 'camilo');
+    var user={
+      fullName: 'Camilo',
+      email : 'email=camilo@biciroute.com',
+      password : btoa('camilo')
+    };
+    localStorage.setItem('email=camilo@biciroute.com', JSON.stringify(user));
     var taskList = [
       {
           description: "Implement Login View",
