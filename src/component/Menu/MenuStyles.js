@@ -9,6 +9,10 @@ const useStyles = makeStyles(theme => ({
   icon: {
     color: "#FFFFFA"
   },
+  profilePicture: {
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
   fab: {
     margin: theme.spacing(1),
     backgroundColor: "#FFFFFA"
@@ -29,7 +33,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    backgroundColor: "#373734"
+    backgroundColor: "#212121"
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -51,7 +55,7 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: "#373734",
+    backgroundColor: "#212121",
     color: "#FFFFFA"
   },
   drawerHeader: {

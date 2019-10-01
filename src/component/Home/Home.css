@@ -5,3 +5,14 @@
 .extendedIcon {
     margin-right: 8px;
 }
+
+.submit{
+    margin-top: 10px !important;
+    border-radius: 0% !important;
+    background-color: #212121 !important;
+    width: 100% !important;
+}
+
+.addTaskButton{
+    background-color: #212121 !important;
+}

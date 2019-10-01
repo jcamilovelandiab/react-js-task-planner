@@ -23,6 +23,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import HelpIcon from '@material-ui/icons/Help';
 import SettingsIcon from '@material-ui/icons/Settings';
 import MenuStyles from "./MenuStyles.js";
+import Box from '@material-ui/core/Box';
 
 export default function Menu() {
     const classes = MenuStyles();
@@ -85,12 +86,14 @@ export default function Menu() {
                 </div>
                 
                 <Grid container justify="center" alignItems="center">
-                    <Avatar alt="profile picture"
-                        src={process.env.PUBLIC_URL + '/images/profilePicture.jpg'}
-                        style={{width: 150, height: 150}} />
-                    <Typography variant="h6" noWrap>
-                        Olivia Musk
-                    </Typography>
+                    <Box flexDirection="column" alignItems="center" justify="center" flexWrap="nowrap">
+                        <Avatar alt="profile picture" justify="center" id="profilePicture" className={classes.profilePicture}
+                            src={process.env.PUBLIC_URL + '/images/profilePicture.jpg'}
+                            style={{width: 150, height: 150}} />
+                        <Typography variant="h6" noWrap align="center" style={{maxWidth: "160px", marginLeft: "auto", marginRight: "auto"}}>
+                            {JSON.parse(localStorage.getItem('loggedUser')).fullName}
+                        </Typography>
+                    </Box>
                 </Grid>
                 <Divider style={{marginTop: 20, margin:20, color: "#FFFFFA"}}/>
                 
@@ -115,8 +118,8 @@ export default function Menu() {
                     </ListItem>
                     <ListItem>
                         <Fab variant="extended" size="small" className={classes.fab} onClick={handleSignOut}>
-                            <ExitToAppIcon style={{color:"#373734"}}/>
-                            <Typography variant="button" noWrap style={{color:"#373734"}}>
+                            <ExitToAppIcon style={{color:"#212121"}}/>
+                            <Typography variant="button" noWrap style={{color:"#212121"}}>
                                 Sign out
                             </Typography>
                         </Fab>

@@ -98,9 +98,19 @@ export class Home extends Component {
             responsibleName:"",
             responsibleEmail: "",
             status: "",
-            dueDate: now(),
+            dueDate: this.state.dueDate,
             open: true
         }));
+    }
+
+    showError(msg){
+        swal({
+            title:"Ooops!",
+            text: msg,
+            icon: "error",
+            button: false,
+            timer: 2000
+        });
     }
 
     handleSubmit(event){
@@ -110,7 +120,7 @@ export class Home extends Component {
             this.state.responsibleEmail==="" ||
             this.state.status==="" ||
             this.state.dueDate===null){
-            alert("To add a new task you must fill out the form completely");
+            this.showError("To add a new task you must fill out the form completely");
         }else{
             const newTask = {
                 description: this.state.description,
@@ -127,7 +137,6 @@ export class Home extends Component {
                 taskListJSON.push(taskList[i]);
             }
             taskListJSON.push(newTask);
-            console.log(taskListJSON);
             localStorage.setItem("taskList", JSON.stringify(taskListJSON));           
 
             swal({
@@ -159,17 +168,17 @@ export class Home extends Component {
         });
           
         const DialogTitle = withStyles(styles)(props => {
-        const { children, classes, onClose } = props;
-        return (
-            <MuiDialogTitle disableTypography className={classes.root}>
-            <Typography variant="h6">{children}</Typography>
-            {onClose ? (
-                <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-                <CloseIcon />
-                </IconButton>
-            ) : null}
-            </MuiDialogTitle>
-        );
+            const { children, classes, onClose } = props;
+            return (
+                <MuiDialogTitle disableTypography className={classes.root}>
+                <Typography variant="h6">{children}</Typography>
+                {onClose ? (
+                    <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+                    <CloseIcon />
+                    </IconButton>
+                ) : null}
+                </MuiDialogTitle>
+            );
         });
 
         return(
@@ -178,9 +187,9 @@ export class Home extends Component {
                 <CardList cardList={(localStorage.getItem("taskList")!=null) ? JSON.parse(localStorage.getItem("taskList")):[]}/>
                 
                 <Container>
-                    <Button variant="outlined" color="secondary" onClick={this.handleClickOpen}
+                    <Button variant="outlined" color="secondary" onClick={this.handleClickOpen} className="addTaskButton"
                         tooltip="Add a task"
-                        styles={{backgroundColor: darkColors.lighterRed, color: lightColors.white}}
+                        styles={{backgroundColor: "#212121", color: lightColors.white}}
                     >
                         <h1>+</h1>
                     </Button>
