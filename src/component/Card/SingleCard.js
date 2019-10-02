@@ -11,6 +11,7 @@ export default function RecipeReviewCard(props) {
   const classes = singleCardStyles();
 
   return (
+    <React.Fragment>
     <Card className={classes.card}>
       <CardHeader
         avatar={
@@ -42,5 +43,6 @@ export default function RecipeReviewCard(props) {
         </Typography>
       </CardActions>
     </Card>
+    </React.Fragment>
   );
 }
