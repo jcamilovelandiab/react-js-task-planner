@@ -1,17 +1,29 @@
 .fab {
-    margin: 8px;
+  margin: 8px !important;
 }
 .extendedIcon {
-  margin-right: 8px;
+  margin-right: 8px !important;
 }
 
 .submit{
-  margin-top: 10px !important;
-  border-radius: 0% !important;
-  background-color: #212121 !important;
-  width: 100% !important;
+margin-top: 10px !important;
+border-radius: 0% !important;
+background-color: #212121 !important;
+width: 100% !important;
 }
 
 .addTaskButton{
+background-color: #212121 !important;
+}
+
+.MuiPickersToolbar-toolbar{
   background-color: #212121 !important;
+}
+
+.MuiPickersDay-daySelected{
+  background-color: #212121 !important;
+}
+
+.MuiButton-textPrimary{
+  color: #212121 !important;
 }

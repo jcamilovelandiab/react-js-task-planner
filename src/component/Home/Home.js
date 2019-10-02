@@ -9,41 +9,33 @@ import { Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
-import Paper from '@material-ui/core/Paper';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+  } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import {Select} from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
 
 export class Home extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            description: "",
             responsibleName: "",
-            responsibleEmail: "",
+            dueDate: now(),
             status: "",
         }
-
-        this.HandleChangeDescription = this.HandleChangeDescription.bind(this);
         this.handleChangeResponsibleName = this.handleChangeResponsibleName.bind(this);
-        this.handleChangeResponsibleEmail = this.handleChangeResponsibleEmail.bind(this);
         this.handleChangeStatus = this.handleChangeStatus.bind(this);
         this.handleChangeDueDate = this.handleChangeDueDate.bind(this);
-    }
-
-    HandleChangeDescription(event){
-        this.setState({
-            description: event.target.value
-        });
     }
 
     handleChangeResponsibleName(event){
         this.setState({
             responsibleName: event.target.value 
-        });
-    };
-
-    handleChangeResponsibleEmail(event){
-        this.setState({
-            responsibleEmail: event.target.value 
         });
     };
     
@@ -79,34 +71,65 @@ export class Home extends Component {
                 <Grid container alignItems="center" justify="center"
                     style={{margin:"auto", display: "flex",
                                 flexDirection: "column"}}>
-                    <Grid alignItems="center" justify="center" container flexDirection="column">
-                        <TextField  item md={3} xs={12}
-                            label="Due date"
-                            value={this.state.dueDate}
-                            onChange={this.handleDescriptionChange}
-                            margin="normal"
-                            style={{marginLeft: 8,
-                                marginRight: 8,
-                                width: 200}}
-                        />
+                    <Grid container alignItems="center" justify="center" flexDirection="column">
+                        
                         <TextField item md={3} xs={12}
+                            variant="outlined"
                             label="Responsible"
+                            type="text"
                             value={this.state.responsibleName}
                             onChange={this.handleChangeResponsibleName}
                             margin="normal"
+                            id="responsibleName"
+                            name="responsibleName"
                             style={{marginLeft: 8,
                                 marginRight: 8,
                                 width: 200}}
                         />
-                        <TextField item md={3} xs={12}
-                            label="Status"
-                            value={this.state.status}
-                            onChange={this.handleChangeStatus}
+                        
+                        <FormControl item
+                            md={3} xs={12}
                             margin="normal"
+                            variant="outlined"
                             style={{marginLeft: 8,
                                 marginRight: 8,
                                 width: 200}}
-                        />
+                        >
+
+                            <InputLabel htmlFor="status">Status</InputLabel>
+                            <Select
+                                    required
+                                    fullWidth
+                                    onChange={this.handleChangeStatus}
+                                    name="status"
+                                    id="status"
+                                    value={this.state.status}
+                                    margin="normal"
+                                >
+                                <MenuItem value="Ready">Ready</MenuItem>
+                                <MenuItem value="Completed">Completed</MenuItem>
+                                <MenuItem value="In Progress">In Progress</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <MuiPickersUtilsProvider 
+                            item md={3} xs={12}
+                            utils={DateFnsUtils}
+                            style={{marginLeft: 8,
+                                marginRight: 8,
+                                width: 200}}>
+                            <KeyboardDatePicker
+                                margin="normal"
+                                id="dueDate"
+                                label="Due date"
+                                format="MM/dd/yyyy"
+                                value={this.dueDate}
+                                selected={this.dueDate}
+                                onChange={this.handleChangeDueDate}
+                                KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                                }}
+                            />
+                        </MuiPickersUtilsProvider>
                         <Fab variant="extended"
                             item md={3} xs={12}
                             style={{marginLeft: 8,

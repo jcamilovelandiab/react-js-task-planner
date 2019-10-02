@@ -161,6 +161,8 @@ export class SignUp extends React.Component{
                 password: btoa(this.state.password)
             };
             localStorage.setItem("email="+this.state.email, JSON.stringify(user));
+            localStorage.setItem('isLoggedIn',true);
+            localStorage.setItem('loggedUser',JSON.stringify(user));
             swal({
                 title:"Good job!",
                 text: "You have signed up sucessfully!",
@@ -168,7 +170,7 @@ export class SignUp extends React.Component{
                 timer: 2000,
                 button: false,
             }).then(() => {
-                window.location.href = "/login";
+                window.location.href = "/home";
             });
         }
     }

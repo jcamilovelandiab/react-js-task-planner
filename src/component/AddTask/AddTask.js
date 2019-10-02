@@ -11,11 +11,16 @@ import TextField from '@material-ui/core/TextField';
 import swal from 'sweetalert';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import Grid from '@material-ui/core/Grid';
-import { MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
-import { Select } from '@material-ui/core';
+
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { Select, CssBaseline } from '@material-ui/core';
 import { now } from "moment";
+import './AddTask.css';
+import FormControl from '@material-ui/core/FormControl';
 
 const styles = theme => ({
   root: {
@@ -74,7 +79,6 @@ export default function AddTask() {
   };
 
   const handleChangeDueDate = (event) => {
-      console.log(event);
       setDueDate(event);
   };
 
@@ -98,8 +102,17 @@ export default function AddTask() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(description==="" || responsibleName==="" || responsibleEmail==="" || status==="" || dueDate===null){
-        showError("To add a new task you must fill out the form completely");
+    if(description===""){
+      showError("Enter the description");
+      document.getElementById("description").focus();
+    }else if(responsibleName===""){
+      showError("Enter the responsible’s name"); document.getElementById("responsibleName").focus(); 
+    }else if(responsibleEmail===""){
+      showError("Enter the responsible’s email"); document.getElementById("responsibleEmail").focus();
+    }else if(status===""){
+      showError("Enter the status"); document.getElementById("status").focus();
+    }else if(dueDate===null){
+        showError("Enter the due date"); document.getElementById("dueDate").focus();
     }else{
         const newTask = {
             description: description,
@@ -124,13 +137,15 @@ export default function AddTask() {
             timer: 2000,
             button: false,
         }).then(() => {
-            window.location.href="/home";
+          handleClose();
+          window.location.reload();
         });
     }
   }
 
   return (
     <Container>
+        <CssBaseline/>
         <Button variant="outlined" color="secondary" onClick={handleClickOpen} className="addTaskButton"
             tooltip="Add a task"
             styles={{backgroundColor: "#212121", color: lightColors.white}}
@@ -158,50 +173,61 @@ export default function AddTask() {
                     />
 
                     <TextField variant="outlined" margin="normal" required fullWidth name="responsibleName"
-                        label="Responsible's name" type="text" id="respnsibleName"
+                        label="Responsible’s name" type="text" id="responsibleName"
                         onChange = {handleChangeResponsibleName}
                     />
 
                     <TextField variant="outlined" margin="normal" required fullWidth name="responsibleEmail"
-                        label="Responsible's email" type="text" id="responsibleEmail"
+                        label="Responsible’s email" type="text" id="responsibleEmail"
                         onChange = {handleChangeResponsibleEmail}
                     />
 
                     <br/>
-                    <InputLabel htmlFor="status">Status</InputLabel>
-                    <Select
-                        required
-                        fullWidth
-                        onChange={handleChangeStatus}
-                        name="status"
-                        id="status"
-                        value={status}
-                    >
-                        <MenuItem value="Ready">Ready</MenuItem>
-                        <MenuItem value="Completed">Completed</MenuItem>
-                        <MenuItem value="In Progress">In Progress</MenuItem>
-                    </Select>
+                    <FormControl item
+                            md={3} xs={12}
+                            margin="normal"
+                            variant="outlined"
+                            fullWidth
+                        >
+                      <InputLabel htmlFor="status">Status</InputLabel>
+                      <Select
+                          required
+                          fullWidth
+                          onChange={handleChangeStatus}
+                          name="status"
+                          id="status"
+                          value={status}
+                      >
+                          <MenuItem value="Ready">Ready</MenuItem>
+                          <MenuItem value="Completed">Completed</MenuItem>
+                          <MenuItem value="In Progress">In Progress</MenuItem>
+                      </Select>
+                    </FormControl>
 
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Grid container justify="left">
-                            <KeyboardDatePicker
-                                disableToolbar
-                                variant="inline"
-                                format="MM/dd/yyyy"
-                                margin="normal"
-                                id="date-picker-inline"
-                                label="Date picker inline"
-                                value={dueDate}
-                                onChange={handleChangeDueDate}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                            />
-                        </Grid>
-                    </MuiPickersUtilsProvider>
+                      <KeyboardDatePicker
+                        margin="normal"
+                        id="dueDate"
+                        label="Due date"
+                        format="MM/dd/yyyy"
+                        value={dueDate}
+                        selected={dueDate}
+                        onChange={handleChangeDueDate}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                     </MuiPickersUtilsProvider>
 
                     <Button fullWidth variant="contained"
-                        color="secundary" className="submit">
+                        color="secundary" className="submit"
+                        style={{
+                          marginTop: "10px !important",
+                          borderRadius: "0% !important",
+                          backgroundColor: "#212121 !important",
+                          width: "100% !important"
+                        }}
+                        >
                         Add task
                     </Button>                       
                 </form>
