@@ -9,6 +9,7 @@ import { Grid } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import SearchIcon from '@material-ui/icons/Search';
+import Paper from '@material-ui/core/Paper';
 
 export class Home extends Component {
 
@@ -78,8 +79,8 @@ export class Home extends Component {
                 <Grid container alignItems="center" justify="center"
                     style={{margin:"auto", display: "flex",
                                 flexDirection: "column"}}>
-                    <div flexDirection="column">
-                        <TextField
+                    <Grid alignItems="center" justify="center" container flexDirection="column">
+                        <TextField  item md={3} xs={12}
                             label="Due date"
                             value={this.state.dueDate}
                             onChange={this.handleDescriptionChange}
@@ -88,7 +89,7 @@ export class Home extends Component {
                                 marginRight: 8,
                                 width: 200}}
                         />
-                        <TextField
+                        <TextField item md={3} xs={12}
                             label="Responsible"
                             value={this.state.responsibleName}
                             onChange={this.handleChangeResponsibleName}
@@ -97,7 +98,7 @@ export class Home extends Component {
                                 marginRight: 8,
                                 width: 200}}
                         />
-                        <TextField
+                        <TextField item md={3} xs={12}
                             label="Status"
                             value={this.state.status}
                             onChange={this.handleChangeStatus}
@@ -106,12 +107,17 @@ export class Home extends Component {
                                 marginRight: 8,
                                 width: 200}}
                         />
-                        <Fab variant="extended">
+                        <Fab variant="extended"
+                            item md={3} xs={12}
+                            style={{marginLeft: 8,
+                                marginRight: 8,
+                                width: 200}}
+                        >
                             <SearchIcon/>
-                            Filter
-                        </Fab>         
+                            Filter  
+                        </Fab>                   
+                    </Grid>      
                                                 
-                    </div>                                    
                     
                     <CardList cardList={(localStorage.getItem("taskList")!=null) ? JSON.parse(localStorage.getItem("taskList")):[]}/>
                 </Grid>
