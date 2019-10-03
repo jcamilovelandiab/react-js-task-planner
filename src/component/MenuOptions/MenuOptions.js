@@ -28,9 +28,9 @@ export default function LongMenu() {
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        styles={{width: "20px"}}
+        style={{width: "20px", color:"#FFFFFF"}}
       >
-        <MoreVertIcon />
+        <MoreVertIcon/>
       </IconButton>
       <Menu
         id="long-menu"
