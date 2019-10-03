@@ -23,6 +23,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import HelpIcon from '@material-ui/icons/Help';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Box from '@material-ui/core/Box';
+
+import MenuOptions from '../MenuOptions/MenuOptions.js';
 import MyMenuStyles from "./MyMenuStyles.js";
 
 export default function MyMenu() {
@@ -50,7 +52,8 @@ export default function MyMenu() {
                 position="fixed"
                 className={clsx(classes.appBar, {
                 [classes.appBarShift]: open
-                })}>
+                })}
+                flexDirection="column">
                 <Toolbar>
                     <IconButton
                             color="inherit"
@@ -65,6 +68,7 @@ export default function MyMenu() {
                         Task Planer
                     </Typography>
                 </Toolbar>
+                <MenuOptions/>
             </AppBar>
             <Drawer
                 className={classes.drawer}
