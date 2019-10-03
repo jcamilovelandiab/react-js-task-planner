@@ -48,28 +48,42 @@ export default function MyMenu() {
     return (
         <div className={classes.root}>
             <CssBaseline />
+            
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
                 [classes.appBarShift]: open
                 })}
-                flexDirection="column">
-                <Toolbar>
-                    <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            className={clsx(classes.menuButton, open && classes.hide)}
-                        >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap>
-                        Task Planer
-                    </Typography>
-                </Toolbar>
-                <MenuOptions/>
+                display="flex"
+                >
+                <Box display="flex" margin={0}>
+                    <Box alignContent="flex-start" flexGrow={1}>
+                        <Toolbar>
+                            <IconButton
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    onClick={handleDrawerOpen}
+                                    edge="start"
+                                    className={clsx(classes.menuButton, open && classes.hide)}
+                                >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography variant="h6" noWrap>
+                                Task Planer
+                            </Typography>
+                        </Toolbar>
+                    </Box>
+                    <Box style={{margin: "auto"}}>
+                        <MenuOptions/>
+                    </Box>
+                    
+                    
+                </Box>
+                
+                
+                
             </AppBar>
+            
             <Drawer
                 className={classes.drawer}
                 variant="persistent"

@@ -4,6 +4,7 @@ import {Home} from './component/Home/Home.js';
 import {Login} from './component/Login/Login.js';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import {SignUp} from './component/SignUp/SignUp.js';
+import {TaskFilter} from './component/TaskFilter/TaskFilter.js';
 
 class App extends Component {
 
@@ -37,6 +38,10 @@ class App extends Component {
       <div>{localStorage.getItem('isLoggedIn') != null ? <Home /> : <Login />} </div>
     );
 
+    const TaskFilterView = () => (
+      <div>{localStorage.getItem('isLoggedIn') != null ? <TaskFilter /> : <Login />}</div>
+    );
+
     return(
       <Router>
           <Switch>
@@ -44,6 +49,7 @@ class App extends Component {
             <Route path="/login" component={LoginView} />
             <Route path="/signup" component={SignUpView} />
             <Route path="/home" component={HomeView} />
+            <Route path="/taskfilter" component={TaskFilterView}/>
           </Switch>
       </Router>
     );

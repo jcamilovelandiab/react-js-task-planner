@@ -5,13 +5,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import './MenuOptions.css';
 
-const options = [
-  'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-];
 
 const ITEM_HEIGHT = 48;
 
@@ -25,10 +18,11 @@ export default function LongMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
+    window.location.href="/taskfilter";
   };
 
   return (
-    <React.Fragment>
+    <div style={{maxWidth: "30px", marginRight:"25px"}}>
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -45,12 +39,10 @@ export default function LongMenu() {
         open={open}
         onClose={handleClose}
       >
-        {options.map(option => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
+          <MenuItem onClick={handleClose}>
+            Filter
           </MenuItem>
-        ))}
       </Menu>
-    </React.Fragment>
+    </div>
   );
 }
