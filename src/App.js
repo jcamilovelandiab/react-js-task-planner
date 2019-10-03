@@ -17,12 +17,7 @@ class App extends Component {
     localStorage.setItem('email=camilo@biciroute.com', JSON.stringify(user));
     if(localStorage.getItem("taskList")==null){
       var taskList = [
-        {
-            description: "Implement Login View",
-            responsible: { name: "Santiago Carrillo", email: "sancarbar@gmail.com" },
-            status: "In progress",
-            dueDate: "12/02/2019"
-        }]
+        ]
       localStorage.setItem("taskList",JSON.stringify(taskList));
     }
     

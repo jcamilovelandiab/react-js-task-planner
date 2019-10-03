@@ -22,11 +22,11 @@ import Grid from '@material-ui/core/Grid';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import HelpIcon from '@material-ui/icons/Help';
 import SettingsIcon from '@material-ui/icons/Settings';
-import MenuStyles from "./MenuStyles.js";
 import Box from '@material-ui/core/Box';
+import MyMenuStyles from "./MyMenuStyles.js";
 
-export default function Menu() {
-    const classes = MenuStyles();
+export default function MyMenu() {
+    const classes = MyMenuStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
