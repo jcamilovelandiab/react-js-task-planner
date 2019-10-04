@@ -1,136 +1,151 @@
-import React,{Component}  from "react";
-
-import { now } from "moment";
-import swal from 'sweetalert';
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
-import Fab from '@material-ui/core/Fab';
-import SearchIcon from '@material-ui/icons/Search';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
+import './TaskFilter.css';
+
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
   } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import {Select} from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import { Grid } from '@material-ui/core';
+  import DateFnsUtils from '@date-io/date-fns';
+import { Select } from '@material-ui/core';
 
-export class TaskFilter extends Component {
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-    constructor(props){
-        super(props);
-        this.state = {
-            responsibleName: "",
-            dueDate: now(),
-            status: "",
+export default function TaskFilter() {
+    const [open, setOpen] = React.useState(false);
+    const [status, setStatus ] = React.useState("");
+    const [dueDate, setDueDate ] = React.useState(null);
+    const [responsibleName, setResponsibleName] = React.useState("");
+
+    const handleClickOnClear = () => {
+        setStatus("");
+        setDueDate(null);
+        setResponsibleName("");
+    }
+
+    const handleChangeStatus = (event) => {
+        setStatus(event.target.value);
+    };
+  
+    const handleChangeDueDate = (event) => {
+        setDueDate(event);
+    };
+  
+    const handleChangeResponsibleName = (event) => {
+      setResponsibleName(event.target.value);
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleClickSave = () => {
+        var taskList = document.getElementById('taskList').childNodes;
+        // by description taskList[i].childNodes[0].childNodes[1].innerText
+        // by responsible's name taskList[i].childNodes[2].childNodes[0].innerText
+        // by responsible's email taskList[i].childNodes[2].childNodes[1].innerText
+        // by status taskList[i].childNodes[1].innerText.split(" - ")[0]
+        // by due date taskList[i].childNodes[1].innerText.split(" - ")[1]
+        for(var i=0; i<taskList.length; i++){
+            var statusHTML = taskList[i].childNodes[1].innerText.split(" - ")[0];
+            var responsibleNameHTML = taskList[i].childNodes[2].childNodes[0].innerText;
+            var dueDateHTML = taskList[i].childNodes[1].innerText.split(" - ")[1];
+            if((status!=="" && statusHTML !== status) ||
+                (responsibleName!=="" &&   responsibleNameHTML !== responsibleName) ||
+                (dueDate!=="" && dueDate!==null && dueDateHTML!==dueDate)){
+                taskList[i].style.display = "none";
+            }else{
+                taskList[i].style.display = "block";
+            }
         }
-        this.handleChangeResponsibleName = this.handleChangeResponsibleName.bind(this);
-        this.handleChangeStatus = this.handleChangeStatus.bind(this);
-        this.handleChangeDueDate = this.handleChangeDueDate.bind(this);
+        handleClose();
     }
+        
 
-    handleChangeResponsibleName(event){
-        this.setState({
-            responsibleName: event.target.value 
-        });
-    };
-    
-    handleChangeStatus(event){
-        this.setState({
-            status: event.target.value
-        });
-    };
-
-    handleChangeDueDate(date){
-        this.setState({
-            dueDate: date
-        });
-    };
-
-    showError(msg){
-        swal({
-            title:"Ooops!",
-            text: msg,
-            icon: "error",
-            button: false,
-            timer: 2000
-        });
-    }
-
-    render(){
-        return(
-            <Grid container alignItems="center" justify="center" flexDirection="column">
-                        
-                        <TextField item md={3} xs={12}
-                            variant="outlined"
-                            label="Responsible"
-                            type="text"
-                            value={this.state.responsibleName}
-                            onChange={this.handleChangeResponsibleName}
-                            margin="normal"
-                            id="responsibleName"
-                            name="responsibleName"
-                            style={{marginLeft: 8,
-                                marginRight: 8,
-                                width: 200}}
-                        />
-                        
-                        <FormControl item
+  return (
+    <React.Fragment>
+        <Button color="primary" className="button" onClick={handleClickOpen}>
+            Filter
+        </Button>
+        <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+            style={{margin:"0px"}}
+        >
+            <DialogTitle id="alert-dialog-slide-title">{"Task Filter"}</DialogTitle>
+            <DialogContent>
+                <form className="form" noValidate>
+                    <TextField variant="outlined" margin="normal" required fullWidth name="responsibleName"
+                        label="Responsible’s name" type="text" id="responsibleName"
+                        onChange = {handleChangeResponsibleName}
+                    />
+                    <br/>
+                    <FormControl item 
                             md={3} xs={12}
                             margin="normal"
                             variant="outlined"
-                            style={{marginLeft: 8,
-                                marginRight: 8,
-                                width: 200}}
+                            fullWidth
                         >
+                      <InputLabel htmlFor="status">Status</InputLabel>
+                      <Select
+                          required
+                          fullWidth
+                          onChange={handleChangeStatus}
+                          name="status"
+                          id="status"
+                          value={status}
+                      >
+                          <MenuItem value="Ready">Ready</MenuItem>
+                          <MenuItem value="Completed">Completed</MenuItem>
+                          <MenuItem value="In Progress">In Progress</MenuItem>
+                      </Select>
+                    </FormControl>
 
-                            <InputLabel htmlFor="status">Status</InputLabel>
-                            <Select
-                                    required
-                                    fullWidth
-                                    onChange={this.handleChangeStatus}
-                                    name="status"
-                                    id="status"
-                                    value={this.state.status}
-                                    margin="normal"
-                                >
-                                <MenuItem value="Ready">Ready</MenuItem>
-                                <MenuItem value="Completed">Completed</MenuItem>
-                                <MenuItem value="In Progress">In Progress</MenuItem>
-                            </Select>
-                        </FormControl>
-                        <MuiPickersUtilsProvider 
-                            item md={3} xs={12}
-                            utils={DateFnsUtils}
-                            style={{marginLeft: 8,
-                                marginRight: 8,
-                                width: 200}}>
-                            <KeyboardDatePicker
-                                margin="normal"
-                                id="dueDate"
-                                label="Due date"
-                                format="MM/dd/yyyy"
-                                value={this.dueDate}
-                                selected={this.dueDate}
-                                onChange={this.handleChangeDueDate}
-                                KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                                }}
-                            />
-                        </MuiPickersUtilsProvider>
-                        <Fab variant="extended"
-                            item md={3} xs={12}
-                            style={{marginLeft: 8,
-                                marginRight: 8,
-                                width: 200}}
-                        >
-                            <SearchIcon/>
-                            Filter  
-                        </Fab>                   
-                    </Grid> 
-
-        );
-    }
-
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <KeyboardDatePicker
+                        margin="normal"
+                        id="dueDate"
+                        label="Due date"
+                        format="MM/dd/yyyy"
+                        value={dueDate}
+                        selected={dueDate}
+                        onChange={handleChangeDueDate}
+                        KeyboardButtonProps={{
+                          'aria-label': 'change date',
+                        }}
+                      />
+                     </MuiPickersUtilsProvider>
+                </form>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={handleClickOnClear} color="primary">
+                Clear
+            </Button>
+            <Button onClick={handleClickSave} color="primary">
+                Save
+            </Button>
+            </DialogActions>
+        </Dialog>
+    </React.Fragment>
+  );
 }

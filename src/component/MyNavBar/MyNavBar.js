@@ -25,10 +25,10 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Box from '@material-ui/core/Box';
 
 import MenuOptions from '../MenuOptions/MenuOptions.js';
-import MyMenuStyles from "./MyMenuStyles.js";
+import MyNavBarStyles from "./MyNavBarStyles.js";
 
 export default function MyMenu() {
-    const classes = MyMenuStyles();
+    const classes = MyNavBarStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -76,12 +76,7 @@ export default function MyMenu() {
                     <Box style={{margin: "auto"}}>
                         <MenuOptions/>
                     </Box>
-                    
-                    
                 </Box>
-                
-                
-                
             </AppBar>
             
             <Drawer
@@ -149,7 +144,6 @@ export default function MyMenu() {
                 [classes.contentShift]: open
                 })}
             >
-                <div className={classes.drawerHeader} />
             </main>
         </div>
     );

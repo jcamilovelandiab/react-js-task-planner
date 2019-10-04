@@ -3,10 +3,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import './MenuOptions.css';
+import TaskFilter from '../TaskFilter/TaskFilter.js';
 
-
-const ITEM_HEIGHT = 48;
+//const ITEM_HEIGHT = 48;
 
 export default function LongMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -18,7 +17,6 @@ export default function LongMenu() {
 
   const handleClose = () => {
     setAnchorEl(null);
-    window.location.href="/taskfilter";
   };
 
   return (
@@ -40,7 +38,7 @@ export default function LongMenu() {
         onClose={handleClose}
       >
           <MenuItem onClick={handleClose}>
-            Filter
+            <TaskFilter />
           </MenuItem>
       </Menu>
     </div>
