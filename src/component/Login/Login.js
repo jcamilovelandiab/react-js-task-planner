@@ -20,7 +20,22 @@ export class Login extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
+    
     render(){
+
+        function accessToken(){
+            return axios.post('http://localhost:8080/v1/users/login', {
+                 email: 'xyz',
+                 password: 'password'
+             })
+            .then(function (response) {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+    
 
         return(
             <Grid container component="main" className="root">
