@@ -15,12 +15,6 @@ class App extends Component {
       password : btoa('camilo')
     };
     localStorage.setItem('email=camilo@biciroute.com', JSON.stringify(user));
-    if(localStorage.getItem("taskList")==null){
-      var taskList = [
-        ]
-      localStorage.setItem("taskList",JSON.stringify(taskList));
-    }
-    
   }
   
   render() {

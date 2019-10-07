@@ -7,7 +7,7 @@ export class CardList extends Component{
         const cardList = this.props.cardList.map((task, i) => {
             return (
                 <SingleCard
-                    description={task.description}
+                    title={task.title}
                     responsible={task.responsible}
                     status = {task.status}
                     dueDate = {task.dueDate}

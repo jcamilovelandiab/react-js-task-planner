@@ -7,9 +7,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import singleCardStyles from '../Card/SingleCardStyles.js';
 
-export default function RecipeReviewCard(props) {
+export default function SingleCard(props) {
   const classes = singleCardStyles();
 
+
+  
   return (
 
       <Card className={classes.card}>
@@ -25,7 +27,7 @@ export default function RecipeReviewCard(props) {
             IP
             </Avatar>
           }
-          title={props.description}
+          title={props.title}
         />
         
         <CardContent>
@@ -36,7 +38,7 @@ export default function RecipeReviewCard(props) {
 
         <CardActions>
           <Typography variant="body2" color="textSecondary" component="p">
-              {props.responsible.name}
+              {props.responsible.fullName}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
               {props.responsible.email}
