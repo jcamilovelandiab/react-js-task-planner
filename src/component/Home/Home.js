@@ -15,8 +15,7 @@ export class Home extends Component {
     }
 
     componentDidMount() {
-        fetch('https://taskplanner-apirest.herokuapp.com/v1/'+
-                JSON.parse(localStorage.getItem('loggedUser')).username+'/tasks')
+        fetch('https://taskplanner-apirest.herokuapp.com/v1/tasks')
             .then(response => response.json())
             .then(data => {
                 this.setState({tasksList: data});
