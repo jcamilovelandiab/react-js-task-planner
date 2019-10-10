@@ -21,22 +21,7 @@ export class Login extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
-    
-    render(){
-
-        function accessToken(){
-            return axios.post('http://localhost:8080/v1/users/login', {
-                 email: 'xyz',
-                 password: 'password'
-             })
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        }
-    
+    render(){    
 
         return(
             <Grid container component="main" className="root">
@@ -56,7 +41,7 @@ export class Login extends React.Component{
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Username or Email"
                             name="email"
                             autoComplete="email"
                             onChange = {this.handleEmailChange}
@@ -97,6 +82,11 @@ export class Login extends React.Component{
         );
     }
 
+    validEmail(email){
+        var re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
     handleEmailChange(e) {
         this.setState({
             email: e.target.value
@@ -121,13 +111,32 @@ export class Login extends React.Component{
 
     handleSubmit(e) {
         e.preventDefault();
-        var user = JSON.parse(localStorage.getItem("email="+this.state.email));
-        if(user!=null && user.password === btoa(this.state.password)){
-            localStorage.setItem('isLoggedIn',true);
-            localStorage.setItem('loggedUser',JSON.stringify(user));
-            window.location.href = "/home";
+        if(this.state.email === ""){
+            this.showError("Please, enter your username or email");
+        }else if(this.state.password === ""){
+            this.showError("Please enter your password");
         }else{
-            this.showError("The email or password is incorrect");
+            var user = {
+                username: null,
+                email: null,
+                password: btoa(this.state.password)
+            }
+            if(this.validEmail(this.state.email)) user.email = this.state.email;
+            else user.username = this.state.email;
+            axios.post('https://taskplanner-apirest.herokuapp.com/v1/users/login', user)
+            .then(function (response) {
+                localStorage.setItem("loggedUser", JSON.stringify(response.data));
+                localStorage.setItem("isLoggedIn", true);
+                window.location.href = "/home";
+            }).catch(function (error) {
+                swal({
+                    title:"Ooops!",
+                    text: error.response.data,
+                    icon: "error",
+                    button: false,
+                    timer: 2000
+                });
+            });
         }
     }
 }

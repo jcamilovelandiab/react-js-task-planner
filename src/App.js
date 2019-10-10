@@ -7,28 +7,22 @@ import {SignUp} from './component/SignUp/SignUp.js';
 
 class App extends Component {
 
-  constructor(props){
+  /*constructor(props){
     super(props);
-    var user={
-      fullName: 'Camilo',
-      email : 'email=camilo@biciroute.com',
-      password : btoa('camilo')
-    };
-    localStorage.setItem('email=camilo@biciroute.com', JSON.stringify(user));
-  }
+  }*/
   
   render() {
 
     const LoginView = () => (
-      <div>{localStorage.getItem('isLoggedIn') != null ? <Home /> : <Login />} </div>
+      <div>{localStorage.getItem('isLoggedIn')==="true"  ? <Home /> : <Login />} </div>
     );
     
     const SignUpView = () => (
-      <div>{localStorage.getItem('isLoggedIn') != null ? <Home /> : <SignUp />} </div>
+      <div>{localStorage.getItem('isLoggedIn')==="true" ? <Home /> : <SignUp />} </div>
       );
 
     const HomeView = () => (
-      <div>{localStorage.getItem('isLoggedIn') != null ? <Home /> : <Login />} </div>
+      <div>{localStorage.getItem('isLoggedIn')==="true" ? <Home /> : <Login />} </div>
     );
 
     return(

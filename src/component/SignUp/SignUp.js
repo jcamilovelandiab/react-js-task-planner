@@ -10,16 +10,18 @@ import TextField from '@material-ui/core/TextField';
 import '../Login/Login.css';
 import {Link } from "react-router-dom";
 import swal from 'sweetalert';
+import axios from 'axios';
 
 export class SignUp extends React.Component{
 
     constructor(props){
         super(props);
-        this.state = {"fullName":"","email":"", 'password':"", "confirmPassword": ""};
+        this.state = {"fullName":"", "username": "","email":"", 'password':"", "confirmPassword": ""};
         this.handleFullNameChange = this.handleFullNameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
@@ -48,6 +50,17 @@ export class SignUp extends React.Component{
                             name="fullName"
                             onChange = {this.handleFullNameChange}
                         />
+
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="username"
+                            label="Username"
+                            name="username"
+                            onChange = {this.handleUsernameChange}
+                        />
                             
                         <TextField
                             variant="outlined"
@@ -75,7 +88,7 @@ export class SignUp extends React.Component{
                             onChange = {this.handlePasswordChange}
                         />
 
-                        <TextField
+                        {/*<TextField
                             variant="outlined"
                             margin="normal"
                             required
@@ -85,7 +98,7 @@ export class SignUp extends React.Component{
                             type="password"
                             id="confirmPassword"
                             onChange = {this.handleConfirmPasswordChange}
-                        />
+                        />*/}
 
                         <Button
                             type="submit"
@@ -134,45 +147,95 @@ export class SignUp extends React.Component{
         });
     }
 
-    showError(msg){
+    handleUsernameChange(e){
+        this.setState({
+            username: e.target.value
+        });
+    }
+
+    showError(msg, time=2000){
         swal({
             title:"Ooops!",
             text: msg,
             icon: "error",
             button: false,
-            timer: 2000
+            timer: time
         });
     }
+
+    /*
+      The password must contain at least one number,
+      one lowercase letter, one uppercase letter,
+      and a minimum length of 6 characters.
+    */
+    validPasswordFormat(password){
+        var re = /^((?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]))(?=.{5,29})/u;
+        return re.test(password);
+    }
+
+    validEmail(email){
+        var re = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    validUsername(username){
+        var re = /^[a-zA-Z][a-zA-Z0-9_]{5,29}$/;
+        return re.test(username);
+    }
+
+    validForm(){
+        if(this.state.fullName===""){
+            this.showError("Please enter your full name"); return false;
+        }else if(this.state.username===""){
+            this.showError("Please enter an username"); return false;
+        }else if(this.state.email === ""){
+            this.showError("Please enter your email"); return false;
+        }else if(this.state.password === ""){
+            this.showError("Please enter your password"); return false;
+        }else if(!this.validUsername(this.state.username)){
+            //console.log(this.validUsername(this.state.username));
+            this.showError("The username can only contain alphanumeric characters and underscores (_), its first character must be an alphabetic character, and a minimum length of 6 characters.", 3000);
+            return false;
+        }else if(!this.validEmail(this.state.email)){
+            this.showError("Please enter a valid email"); return false;
+        }else if(!this.validPasswordFormat(this.state.password)){
+            this.showError("The password must contain at least one number, one lowercase letter, one uppercase letter, and a minimum length of 6 characters.", 3000);
+            return false;
+        }
+        return true;
+    }
+
     handleSubmit(e) {
         e.preventDefault();
-        if(this.state.email === ""){
-            this.showError("Please enter your email")
-        }else if(this.state.password === ""){
-            this.showError("Please enter your password.");
-        }else if(this.state.password !== this.state.confirmPassword){
-            this.showError("Passwords do not match. Please reconfirm your password.");
-        }
-        else if(localStorage.getItem("email="+this.state.email)!=null){
-            this.showError("The email you entered already exists. Please enter another email");
-        }else{
+        if(this.validForm()){
             var user = {
+                username: this.state.username,
                 fullName: this.state.fullName,
                 email: this.state.email,
                 password: btoa(this.state.password)
             };
-            localStorage.setItem("email="+this.state.email, JSON.stringify(user));
-            localStorage.setItem('isLoggedIn',true);
-            localStorage.setItem('loggedUser',JSON.stringify(user));
-            swal({
-                title:"Good job!",
-                text: "You have signed up sucessfully!",
-                icon: "success",
-                timer: 2000,
-                button: false,
-            }).then(() => {
-                window.location.href = "/home";
+            axios.post('https://taskplanner-apirest.herokuapp.com/v1/users', user)
+            .then(function (response) {
+                swal({
+                    title:"Good job!",
+                    text: "You have signed up sucessfully!",
+                    icon: "success",
+                    timer: 2000,
+                    button: false,
+                }).then(() => {
+                    localStorage.setItem("loggedUser", JSON.stringify(response.data));
+                    localStorage.setItem("isLoggedIn", true);
+                    window.location.href = "/home";
+                });
+            }).catch(function (error) {
+                swal({
+                    title:"Ooops!",
+                    text: error.response.data,
+                    icon: "error",
+                    button: false,
+                    timer: 2000
+                });
             });
         }
     }
-
 }

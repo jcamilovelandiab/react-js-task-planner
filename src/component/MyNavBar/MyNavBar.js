@@ -41,11 +41,12 @@ export default function MyMenu() {
     }
 
     function handleSignOut(){
+        localStorage.removeItem('loggedUser');
         localStorage.removeItem('isLoggedIn');
         window.location.href = "/login";
     }
 
-    return (
+    return(
         <div className={classes.root}>
             <CssBaseline />
             
