@@ -123,7 +123,7 @@ export class Login extends React.Component{
             }
             if(this.validEmail(this.state.email)) user.email = this.state.email;
             else user.username = this.state.email;
-            axios.post('https://taskplanner-apirest.herokuapp.com/v1/users/login', user)
+            axios.post('https://taskplanner-apirest.herokuapp.com/users/login', user)
             .then(function (response) {
                 localStorage.setItem("loggedUser", JSON.stringify(response.data));
                 localStorage.setItem("isLoggedIn", true);

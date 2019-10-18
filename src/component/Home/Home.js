@@ -4,6 +4,7 @@ import {CardList} from '../CardList/CardList.js';
 import './Home.css';
 import AddTask from '../AddTask/AddTask.js';
 import { Grid } from '@material-ui/core';
+import axios from 'axios';
 
 export class Home extends Component {
 
@@ -15,10 +16,18 @@ export class Home extends Component {
     }
 
     componentDidMount() {
-        fetch('https://taskplanner-apirest.herokuapp.com/v1/tasks')
-            .then(response => response.json())
-            .then(data => {
-                this.setState({tasksList: data});
+        axios.get('https://taskplanner-apirest.herokuapp.com/api/tasks',{
+            headers: {
+                'Authorization': 'Bearer '+JSON.parse(localStorage.getItem("loggedUser")).accessToken,
+            },
+            timeout: 1000
+        }).then((response) => {
+            this.setState({
+                tasksList: response.data
+            });
+        })
+        .catch((error) => {
+            console.log(error);
         });
     }
 
