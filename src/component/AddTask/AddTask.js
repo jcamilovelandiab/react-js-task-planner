@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import swal from 'sweetalert';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+import axios from 'axios';
 
 import {
   MuiPickersUtilsProvider,
@@ -57,7 +58,7 @@ const DialogContent = withStyles(theme => ({
 
 export default function AddTask() {
   const [open, setOpen] = React.useState(false);
-  const [description, setDescription ] = React.useState("");
+  const [title, setTitle ] = React.useState("");
   const [status, setStatus ] = React.useState("");
   const [dueDate, setDueDate ] = React.useState(now());
   const [responsibleName, setResponsibleName] = React.useState("");
@@ -70,8 +71,8 @@ export default function AddTask() {
     setOpen(false);
   };
 
-  const handleChangeDescription = (event) => {
-    setDescription(event.target.value);
+  const handleChangeTitle = (event) => {
+    setTitle(event.target.value);
   };
 
   const handleChangeStatus = (event) => {
@@ -102,9 +103,9 @@ export default function AddTask() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(description===""){
-      showError("Enter the description");
-      document.getElementById("description").focus();
+    if(title===""){
+      showError("Enter the title");
+      document.getElementById("title").focus();
     }else if(responsibleName===""){
       showError("Enter the responsible’s name"); document.getElementById("responsibleName").focus(); 
     }else if(responsibleEmail===""){
@@ -115,7 +116,7 @@ export default function AddTask() {
         showError("Enter the due date"); document.getElementById("dueDate").focus();
     }else{
         const newTask = {
-            description: description,
+            title: title,
             responsible: {
                 name: responsibleName,
                 email: responsibleEmail
@@ -123,22 +124,32 @@ export default function AddTask() {
             status: status,
             dueDate: dueDate
         }
-        var taskList = (localStorage.getItem("taskList")!=null)?JSON.parse(localStorage.getItem("taskList")):[]
-        var taskListJSON = []
-        for(var i=0; i<taskList.length; i++){
-            taskListJSON.push(taskList[i]);
-        }
-        taskListJSON.push(newTask);
-        localStorage.setItem("taskList", JSON.stringify(taskListJSON));
-        swal({
-            title:"Good job!",
-            text: "You have created a new task sucessfully!",
-            icon: "success",
-            timer: 2000,
-            button: false,
-        }).then(() => {
-          handleClose();
-          window.location.reload();
+        console.log(newTask);
+
+        axios.post('https://taskplanner-apirest.herokuapp.com/api/tasks', newTask,{
+          headers: {
+              'Authorization': 'Bearer '+JSON.parse(localStorage.getItem("loggedUser")).accessToken,
+          },
+          timeout: 1000
+        }).then((response)=> {
+          swal({
+              title:"Good job!",
+              text: "You have created a new task sucessfully!",
+              icon: "success",
+              timer: 2000,
+              button: false,
+          }).then(() => {
+            handleClose();
+            window.location.reload();
+          });
+        }).catch((error)=> {
+            swal({
+                title:"Ooops!",
+                text: "An error occurred while trying to create a task. Please try again!",
+                icon: "error",
+                button: false,
+                timer: 2000
+            });
         });
     }
   }
@@ -166,10 +177,10 @@ export default function AddTask() {
                         margin="normal"
                         required
                         fullWidth
-                        id="description"
-                        label="Description"
-                        name="description"
-                        onChange = {handleChangeDescription}
+                        id="title"
+                        label="Task Title"
+                        name="title"
+                        onChange = {handleChangeTitle}
                     />
 
                     <TextField variant="outlined" margin="normal" required fullWidth name="responsibleName"

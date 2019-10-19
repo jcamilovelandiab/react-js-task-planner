@@ -30,9 +30,9 @@ export default function TaskFilter() {
     const [responsibleName, setResponsibleName] = React.useState("");
 
     const handleClickOnClear = () => {
+        setResponsibleName("");
         setStatus("");
         setDueDate(null);
-        setResponsibleName("");
     }
 
     const handleChangeStatus = (event) => {
@@ -95,9 +95,8 @@ export default function TaskFilter() {
             <DialogTitle id="alert-dialog-slide-title">{"Task Filter"}</DialogTitle>
             <DialogContent>
                 <form className="form" noValidate>
-                    <TextField variant="outlined" margin="normal" required fullWidth name="responsibleName"
-                        label="Responsible’s name" type="text" id="responsibleName"
-                        onChange = {handleChangeResponsibleName}
+                    <TextField variant="outlined" margin="normal" required fullWidth
+                        name="responsibleName" label="Responsible’s name" type="text" id="responsibleName" value={responsibleName}                        onChange = {handleChangeResponsibleName}
                     />
                     <br/>
                     <FormControl item 

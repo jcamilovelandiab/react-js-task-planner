@@ -20,7 +20,7 @@ export class Home extends Component {
             headers: {
                 'Authorization': 'Bearer '+JSON.parse(localStorage.getItem("loggedUser")).accessToken,
             },
-            timeout: 1000
+            timeout: 1200
         }).then((response) => {
             this.setState({
                 tasksList: response.data
