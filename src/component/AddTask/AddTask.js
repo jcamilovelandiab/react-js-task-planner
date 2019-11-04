@@ -126,7 +126,7 @@ export default function AddTask() {
         }
         console.log(newTask);
 
-        axios.post('https://taskplanner-apirest.herokuapp.com/api/tasks', newTask,{
+        axios.post('http://localhost:8080/api/tasks', newTask,{
           headers: {
               'Authorization': 'Bearer '+JSON.parse(localStorage.getItem("loggedUser")).accessToken,
           },

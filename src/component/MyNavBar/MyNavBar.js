@@ -26,11 +26,14 @@ import Box from '@material-ui/core/Box';
 
 import MenuOptions from '../MenuOptions/MenuOptions.js';
 import MyNavBarStyles from "./MyNavBarStyles.js";
+import EditSharpIcon from '@material-ui/icons/EditSharp';
+import EditProfile from "../EditProfile/EditProfile.js";
 
 export default function MyMenu() {
     const classes = MyNavBarStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [editingProfile, setEditingProfile] = React.useState(false);
 
     function handleDrawerOpen() {
         setOpen(true);
@@ -44,6 +47,14 @@ export default function MyMenu() {
         localStorage.removeItem('loggedUser');
         localStorage.removeItem('isLoggedIn');
         window.location.href = "/login";
+    }
+
+    function handleOpenEditProfile(){
+        setEditingProfile(true);
+    }
+
+    function handleCloseEditProfile(){
+        setEditingProfile(false);
     }
 
     return(
@@ -80,6 +91,8 @@ export default function MyMenu() {
                 </Box>
             </AppBar>
             
+            <EditProfile key={editingProfile} open={editingProfile} handleClose={handleCloseEditProfile}/>
+
             <Drawer
                 className={classes.drawer}
                 variant="persistent"
@@ -100,6 +113,7 @@ export default function MyMenu() {
                 </div>
                 
                 <Grid container justify="center" alignItems="center">
+                    
                     <Box flexDirection="column" alignItems="center" justify="center" flexWrap="nowrap">
                         <Avatar alt="profile picture" justify="center" id="profilePicture" className={classes.profilePicture}
                             src={process.env.PUBLIC_URL + '/images/profilePicture.jpg'}
@@ -107,9 +121,21 @@ export default function MyMenu() {
                         <Typography variant="h6" noWrap align="center" style={{maxWidth: "160px", marginLeft: "auto", marginRight: "auto"}}>
                             {JSON.parse(localStorage.getItem('loggedUser')).fullName}
                         </Typography>
+                        <Fab
+                            variant="extended"
+                            size="small"
+                            color="primary"
+                            aria-label="add"
+                            className={classes.margin}
+                            style={{backgroundColor: "#33E833", color: "#212121"}}
+                            onClick={handleOpenEditProfile}
+                        >
+                            <EditSharpIcon className={classes.extendedIcon} style={{color: "#212121"}}/>
+                            Edit profile
+                        </Fab>
                     </Box>
                 </Grid>
-                <Divider style={{marginTop: 20, margin:20, color: "#FFFFFA"}}/>
+                <Divider style={{marginTop: 20, margin:20, color: "#33C12E"}}/>
                 
                 <List>
                     <ListItem button>
@@ -131,7 +157,8 @@ export default function MyMenu() {
                         <ListItemText primary="Help" />
                     </ListItem>
                     <ListItem>
-                        <Fab variant="extended" size="small" className={classes.fab} onClick={handleSignOut}>
+                        <Fab variant="extended" size="small" className={classes.fab} onClick={handleSignOut}
+                            style={{backgroundColor: "#C73235"}}>
                             <ExitToAppIcon style={{color:"#212121"}}/>
                             <Typography variant="button" noWrap style={{color:"#212121"}}>
                                 Sign out

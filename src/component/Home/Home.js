@@ -16,7 +16,7 @@ export class Home extends Component {
     }
 
     componentDidMount() {
-        axios.get('https://taskplanner-apirest.herokuapp.com/api/tasks',{
+        axios.get('http://localhost:8080/api/tasks',{
             headers: {
                 'Authorization': 'Bearer '+JSON.parse(localStorage.getItem("loggedUser")).accessToken,
             },

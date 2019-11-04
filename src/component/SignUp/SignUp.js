@@ -214,7 +214,7 @@ export class SignUp extends React.Component{
                 email: this.state.email,
                 password: btoa(this.state.password)
             };
-            axios.post('https://taskplanner-apirest.herokuapp.com/users', user)
+            axios.post('http://localhost:8080/users', user)
             .then(function (response) {
                 swal({
                     title:"Good job!",
