@@ -8,7 +8,8 @@ import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 import EditProfileStyles from './EditProfileStyles.js';
 
@@ -71,16 +72,36 @@ export default function UpdatingProfile(props) {
     }else{
       props.handleClose();
     }
-    /*let data = new FormData();
+    let data = new FormData();
     data.append('file', profileImage);
-
-    this.axios.post('files', data)
-        .then(function (response) {
-            console.log("file uploaded!", data);
+    var loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+    //console.log(loggedUser);
+    axios.post('http://localhost:8080/api/files/'+loggedUser.id, data,{
+      headers: {
+          'Authorization': 'Bearer '+loggedUser.accessToken,
+      },
+      timeout: 1200
+    })
+    .then(function (response) {
+      swal({
+          title:"Good job!",
+          text: "Profile was updated sucessfully!",
+          icon: "success",
+          timer: 2000,
+          button: false,
+      }).then(() => {
+          window.location.reload();
+      });
     })
     .catch(function (error) {
-        console.log("failed file upload", error);
-    });*/
+      swal({
+          title:"Ooops!",
+          text: "The profile couldn't be updated!",
+          icon: "error",
+          button: false,
+          timer: 2000
+      });
+    });
   }
 
   return (

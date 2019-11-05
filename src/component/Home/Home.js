@@ -16,9 +16,10 @@ export class Home extends Component {
     }
 
     componentDidMount() {
+        var loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
         axios.get('http://localhost:8080/api/tasks',{
             headers: {
-                'Authorization': 'Bearer '+JSON.parse(localStorage.getItem("loggedUser")).accessToken,
+                'Authorization': 'Bearer '+ loggedUser.accessToken,
             },
             timeout: 1200
         }).then((response) => {
@@ -28,6 +29,19 @@ export class Home extends Component {
         })
         .catch((error) => {
             console.log(error);
+        }).then(()=>{
+            axios.get('http://localhost:8080/api/files/profileImage_'+loggedUser.id,{
+                headers: {
+                    'Authorization': 'Bearer '+ loggedUser.accessToken,
+                },
+                timeout: 1200
+            }).then((response) => {
+                alert("the image was found");
+                localStorage.setItem("profileImage", btoa(response.data));
+            })
+            .catch((error) => {
+                alert("we couldn't find the image");
+            });
         });
     }
 

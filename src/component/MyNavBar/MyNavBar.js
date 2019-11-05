@@ -46,6 +46,7 @@ export default function MyMenu() {
     function handleSignOut(){
         localStorage.removeItem('loggedUser');
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('profileImage');
         window.location.href = "/login";
     }
 
