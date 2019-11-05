@@ -34,6 +34,12 @@ export default function MyMenu() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [editingProfile, setEditingProfile] = React.useState(false);
+    const [urlProfileImage, setUrlProfileImage] = React.useState('http://localhost:8080/files/profileImage_'+
+        JSON.parse(localStorage.getItem('loggedUser')).id);
+
+    const onErrorDownloadProfileImage= () =>{
+        setUrlProfileImage(process.env.PUBLIC_URL + '/images/profilePicture.jpg');
+    }
 
     function handleDrawerOpen() {
         setOpen(true);
@@ -117,8 +123,10 @@ export default function MyMenu() {
                     
                     <Box flexDirection="column" alignItems="center" justify="center" flexWrap="nowrap">
                         <Avatar alt="profile picture" justify="center" id="profilePicture" className={classes.profilePicture}
-                            src={process.env.PUBLIC_URL + '/images/profilePicture.jpg'}
-                            style={{width: 150, height: 150}} />
+                            src={urlProfileImage}
+                            onError={onErrorDownloadProfileImage}
+                            style={{width: 150, height: 150}} 
+                            />
                         <Typography variant="h6" noWrap align="center" style={{maxWidth: "160px", marginLeft: "auto", marginRight: "auto"}}>
                             {JSON.parse(localStorage.getItem('loggedUser')).fullName}
                         </Typography>

@@ -128,14 +128,8 @@ export class Login extends React.Component{
                 localStorage.setItem("loggedUser", JSON.stringify(response.data));
                 localStorage.setItem("isLoggedIn", true);
                 window.location.href = "/home";
-            }).catch(function (error) {
-                swal({
-                    title:"Ooops!",
-                    text: error.response.data,
-                    icon: "error",
-                    button: false,
-                    timer: 2000
-                });
+            }).catch((error)=>{
+                this.showError(error.response.data);
             });
         }
     }

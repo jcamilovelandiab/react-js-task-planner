@@ -70,38 +70,36 @@ export default function UpdatingProfile(props) {
         props.handleClose();
       }
     }else{
-      props.handleClose();
-    }
-    let data = new FormData();
-    data.append('file', profileImage);
-    var loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-    //console.log(loggedUser);
-    axios.post('http://localhost:8080/api/files/'+loggedUser.id, data,{
-      headers: {
-          'Authorization': 'Bearer '+loggedUser.accessToken,
-      },
-      timeout: 1200
-    })
-    .then(function (response) {
-      swal({
-          title:"Good job!",
-          text: "Profile was updated sucessfully!",
-          icon: "success",
-          timer: 2000,
-          button: false,
-      }).then(() => {
-          window.location.reload();
-      });
-    })
-    .catch(function (error) {
-      swal({
-          title:"Ooops!",
-          text: "The profile couldn't be updated!",
-          icon: "error",
-          button: false,
-          timer: 2000
-      });
-    });
+      let data = new FormData();
+      data.append('file', profileImage);
+      var loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+      axios.post('http://localhost:8080/api/files/'+loggedUser.id, data,{
+        headers: {
+            'Authorization': 'Bearer '+loggedUser.accessToken,
+        },
+        timeout: 1200
+      }).then(function (response) {
+        swal({
+              title:"Good job!",
+              text: "Profile was updated sucessfully!",
+              icon: "success",
+              timer: 2000,
+              button: false,
+          }).then(() => {
+              window.location.reload();
+          });
+        }).catch(function (error) {
+          swal({
+              title:"Ooops!",
+              text: "The profile couldn't be updated!",
+              icon: "error",
+              button: false,
+              timer: 2000
+          });
+        }).then(()=>{
+          props.handleClose();
+        });
+      }
   }
 
   return (
