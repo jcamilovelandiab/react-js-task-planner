@@ -29,7 +29,7 @@ import MyNavBarStyles from "./MyNavBarStyles.js";
 import EditSharpIcon from '@material-ui/icons/EditSharp';
 import EditProfile from "../EditProfile/EditProfile.js";
 
-export default function MyMenu() {
+export default function MyMenu(props) {
     const classes = MyNavBarStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -38,6 +38,7 @@ export default function MyMenu() {
         JSON.parse(localStorage.getItem('loggedUser')).id);
 
     const onErrorDownloadProfileImage= () =>{
+        console.log(urlProfileImage);
         setUrlProfileImage(process.env.PUBLIC_URL + '/images/profilePicture.jpg');
     }
 
@@ -66,7 +67,6 @@ export default function MyMenu() {
 
     return(
         <div className={classes.root}>
-            <CssBaseline />
             
             <AppBar
                 position="fixed"

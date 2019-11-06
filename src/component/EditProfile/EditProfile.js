@@ -73,12 +73,8 @@ export default function UpdatingProfile(props) {
       let data = new FormData();
       data.append('file', profileImage);
       var loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
-      axios.post('http://localhost:8080/api/files/'+loggedUser.id, data,{
-        headers: {
-            'Authorization': 'Bearer '+loggedUser.accessToken,
-        },
-        timeout: 1200
-      }).then(function (response) {
+      axios.post('http://localhost:8080/files/'+loggedUser.id, data
+      ).then(function (response) {
         swal({
               title:"Good job!",
               text: "Profile was updated sucessfully!",
