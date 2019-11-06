@@ -1,19 +1,36 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import singleCardStyles from '../Card/SingleCardStyles.js';
+import CardMedia from '@material-ui/core/CardMedia';
+import SettingsIcon from '@material-ui/icons/Settings';
+import IconButton from '@material-ui/core/IconButton';
+import TaskSettings from '../TaskSettings/TaskSettings.js';
+import PictureAsPdfRoundedIcon from '@material-ui/icons/PictureAsPdfRounded';
 
 export default function SingleCard(props) {
   const classes = singleCardStyles();
+  const [open, setOpen] = React.useState(false);
 
+  const handleOpen = () =>{
+    setOpen(true);
+    console.log(open);
+  }
 
+  const handleClose = () =>{
+    setOpen(false);
+  }
+
+  React.useEffect(() => { //ComponentDidMount in a functional component
+    console.log('mount it!');
+  }, []);
   
   return (
-
+    <React.Fragment>
+      <TaskSettings key={open} open={open} handleClose={handleClose} info={props}/>
       <Card className={classes.card}>
         <CardHeader
           avatar={
@@ -27,23 +44,32 @@ export default function SingleCard(props) {
             IP
             </Avatar>
           }
+          action={
+            <IconButton aria-label="settings" onClick={handleOpen}>
+              <SettingsIcon />
+            </IconButton>
+          }
+          title={props.title}
+          subheader={props.dueDate}
+        />
+        <CardMedia
+          className={classes.media}
+          image="https://loremflickr.com/320/240"
           title={props.title}
         />
-        
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.status} - {props.dueDate}
-          </Typography>  
-        </CardContent>
-
-        <CardActions>
-          <Typography variant="body2" color="textSecondary" component="p">
-              {props.responsible.fullName}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+        <CardActions disableSpacing>
+          <Typography variant="body2" color="textSecondary" component="p"
+            style={{marginRight: "auto"}}>
               {props.responsible.email}
           </Typography>
-        </CardActions>
+          <IconButton
+            style={{marginLeft: "auto"}}
+            aria-label="show more"
+          >
+            <PictureAsPdfRoundedIcon />
+          </IconButton>
+      </CardActions>
       </Card>
+    </React.Fragment>
   );
 }

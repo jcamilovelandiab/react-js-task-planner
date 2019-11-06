@@ -11,8 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import swal from 'sweetalert';
 
-import EditProfileStyles from './EditProfileStyles.js';
-
 const styles = theme => ({
   root: {
     margin: 0,
@@ -54,9 +52,7 @@ const DialogActions = withStyles(theme => ({
 }))(MuiDialogActions);
 
 export default function UpdatingProfile(props) {
-  const classes = EditProfileStyles();
-
-
+  //const classes = EditProfileStyles();
   const [profileImage, setProfileImage] = React.useState("");
 
   const handleProfileImageChange = (e) =>{

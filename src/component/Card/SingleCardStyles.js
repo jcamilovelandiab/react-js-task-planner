@@ -4,7 +4,9 @@ const cardStyles = makeStyles(theme => ({
   card: {
     width: "100%",
     marginTop: 20,
-    background: "#FFFFFA"
+    background: "#FFFFFA",
+    maxWidth: "500px",
+    margin: "auto"
   },
   media: {
     height: 0,
@@ -19,7 +21,8 @@ const cardStyles = makeStyles(theme => ({
   },
   expandOpen: {
     transform: 'rotate(180deg)',
-  }
+  },
+
 }));
 
 export default cardStyles;
